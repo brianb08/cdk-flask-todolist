@@ -5,6 +5,8 @@ from app.main import main
 from app.main.forms import TodoForm, TodoListForm
 from app.models import Todo, TodoList
 
+from utils.fake_generator import FakeGenerator
+
 
 @main.route("/")
 def index():
@@ -54,3 +56,9 @@ def add_todolist():
         todolist = TodoList(form.title.data, _get_user()).save()
         return redirect(url_for("main.todolist", id=todolist.id))
     return redirect(url_for("main.index"))
+
+
+@main.route("/db/setup/fake/", methods=["GET"])
+def setup_database():
+    fake_generate = FakeGenerator()
+    fake_generate.start()
